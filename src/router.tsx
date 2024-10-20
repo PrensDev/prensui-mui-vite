@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import AdminLayout from "./routes/admin/admin.layout";
 import DashboardPage from "./routes/admin/pages/dashboard.page";
+import DatatablePage from "./routes/admin/pages/datatable.page.tsx";
 import AuthLayout from "./routes/auth/auth.layout";
 import LoginPage from "./routes/auth/pages/login.page";
 import RedirectPage from "./routes/auth/pages/redirect.page.tsx";
@@ -36,6 +37,9 @@ export const router = createBrowserRouter([
 					{
 						path: "dashboard",
 						element: <DashboardPage />
+					}, {
+						path: "datatable",
+						element: <DatatablePage />
 					}
 				]
 			}
