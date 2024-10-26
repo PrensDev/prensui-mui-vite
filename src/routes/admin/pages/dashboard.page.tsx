@@ -1,5 +1,7 @@
+import { DashboardHeader } from "../../../components/DashboardHeader/DashboardHeader";
+
 export default function DashboardPage() {
     return (
-        <h1>Dashboard Page</h1>
+        <DashboardHeader title="Dashboard" />
     )
 }

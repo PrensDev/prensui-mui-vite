@@ -1,7 +1,8 @@
-import { Avatar, Paper } from "@mui/material";
+import { Avatar, Checkbox, ListItemText, MenuItem, OutlinedInput, Paper, Select, Stack, TextField } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { DashboardHeader } from "../../../components/DashboardHeader/DashboardHeader";
 
 const pageSizeOption = 100;
 const maxRowCount = 5000;
@@ -75,7 +76,29 @@ export default function DatatablePage() {
 
 	return (
 		<>
-			<h1>Datatable Page</h1>
+			<DashboardHeader title="Datatable" />
+
+			<Stack direction="row" marginBottom={4} gap={1}>
+				<TextField size="small" placeholder="Search" />
+				<Select
+          id="demo-multiple-checkbox"
+          multiple
+					value={["Male", "Female"]}
+          // onChange={handleChange}
+          input={<OutlinedInput label="Gender" />}
+          renderValue={(selected) => selected.join(', ')}
+        >
+					<MenuItem value="male">
+						<Checkbox />
+						<ListItemText primary="Male" />
+					</MenuItem>
+					<MenuItem value="female">
+						<Checkbox />
+						<ListItemText primary="Female" />
+					</MenuItem>
+        </Select>
+			</Stack>
+
 			<Paper sx={{ height: 500, width: '100%' }}>
 				<DataGrid
 					loading={isLoading}

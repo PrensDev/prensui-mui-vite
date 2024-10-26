@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { GoogleIcon } from './GoogleIcon';
+import { DashboardHeader } from './DashboardHeader';
 
 const meta = {
-  component: GoogleIcon,
-} satisfies Meta<typeof GoogleIcon>;
+  component: DashboardHeader,
+} satisfies Meta<typeof DashboardHeader>;
 
 export default meta;
 

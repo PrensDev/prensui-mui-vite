@@ -14,7 +14,6 @@ export default function AuthLayout() {
                 <Box
                     flexGrow={1}
                     width="100dvw"
-                    bgcolor="#f8f9fa"
                     display="flex"
                     justifyContent="center"
                     alignItems="center"

@@ -42,7 +42,7 @@ export default function LoginPage() {
   }
 
   return (
-    <Stack bgcolor="#fff" borderRadius={2} padding="16px" border="solid #ccc 1px">
+    <Stack borderRadius={2} padding="16px" border="solid #ccc 1px">
       <form onSubmit={onFormSubmit}>
         <Stack gap={2} width="400px">
           <span
@@ -55,8 +55,8 @@ export default function LoginPage() {
           >Log in</span>
 
           {alertMessage && !submitting && (
-            <Alert 
-              severity="warning" 
+            <Alert
+              severity="warning"
               onClose={() => {setAlertMessage("")}}
             >{alertMessage}</Alert>
           )}
