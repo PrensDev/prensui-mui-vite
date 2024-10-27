@@ -12,7 +12,7 @@ export default function AdminLayout() {
 			<CssBaseline />
 			<HeaderAppBar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} />
 			<Sidebar open={openSidebar}/>
-			<Box component="main" width="100%" sx={{ p: 3 }}>
+			<Box component="main" width="100%" sx={{ p: 3, flexGrow: 1 }}>
 				<Toolbar />
 				<Outlet />
 			</Box>

@@ -4,7 +4,7 @@ import LayersIcon from '@mui/icons-material/Layers';
 import LayersClearIcon from '@mui/icons-material/LayersClear';
 import TabIcon from '@mui/icons-material/Tab';
 import TableViewIcon from '@mui/icons-material/TableView';
-import { Chip, Divider, List, ListItemButton, ListItemIcon, ListItemText, styled, Toolbar, Tooltip, Typography } from "@mui/material";
+import { Box, Chip, Divider, List, ListItemButton, ListItemIcon, ListItemText, styled, Toolbar, Tooltip, Typography } from "@mui/material";
 import MuiDrawer from '@mui/material/Drawer';
 import { useNavigate } from 'react-router-dom';
 
@@ -103,7 +103,7 @@ export const Sidebar = ({ open }: SidebarProps) => {
     >
       <Toolbar />
       {sidebarItems.map((sidebarItem, idx) => (
-        <>
+        <Box key={idx}>
           {idx > 0 && <Divider />}
           {open && sidebarItem.title && (
             <Typography
@@ -126,7 +126,7 @@ export const Sidebar = ({ open }: SidebarProps) => {
               </ListItemButton>
             ))}
           </List>
-        </>
+        </Box>
       ))}
     </SidebarDrawer>
   )

@@ -32,6 +32,23 @@ export const theme = createTheme({
                     fontSize: "1rem"
                 }
             }
-        }
+        },
+        MuiTooltip: {
+            defaultProps: {
+                enterDelay: 750,
+                slotProps: {
+                    popper: {
+                        modifiers: [
+                            {
+                                name: 'offset',
+                                options: {
+                                    offset: [0, -8],
+                                },
+                            },
+                        ],
+                    },
+                }
+            }
+        },
     },
 })

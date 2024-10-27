@@ -1,5 +1,5 @@
-import { Add } from "@mui/icons-material";
-import { Avatar, Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, ListItemText, MenuItem, OutlinedInput, Paper, Select, Stack, TextField } from "@mui/material";
+import { Add, Delete, Edit } from "@mui/icons-material";
+import { Avatar, Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, ListItemText, MenuItem, OutlinedInput, Paper, Select, Stack, TextField, Tooltip } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import { useSnackbar } from "notistack";
@@ -10,25 +10,26 @@ const pageSizeOption = 100;
 const maxRowCount = 5000;
 
 const fetchUsers = async (page: number) => {
- const response = await fetch(`https://randomuser.me/api/?page=${ page + 1 }&results=${ pageSizeOption }&seed=Prens`);
- const responseData = await response.json() as { [key: string]: unknown };
- // eslint-disable-next-line @typescript-eslint/ban-ts-comment
- // @ts-expect-error
- return responseData.results.map(result => {
-	result.id = result.login.uuid;
-	return result;
- });
+	const response = await fetch(`https://randomuser.me/api/?page=${page + 1}&results=${pageSizeOption}&seed=Prens`);
+	const responseData = await response.json() as { [key: string]: unknown };
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-expect-error
+	return responseData.results.map(result => {
+		result.id = result.login.uuid;
+		return result;
+	});
 }
 
 const userColumns: GridColDef[] = [
 	{
 		field: "id",
+		width: 300
 	}, {
 		field: "picture",
 		headerName: "Photo",
 		renderCell: (params) => {
 			return (
-				<Avatar 
+				<Avatar
 					src={params.value?.medium}
 				/>
 			)
@@ -36,6 +37,7 @@ const userColumns: GridColDef[] = [
 	}, {
 		field: "name",
 		headerName: "Name",
+		width: 300,
 		valueGetter: (params: { [key: string]: unknown }) => params?.title + " " + params?.first + " " + params?.last
 	}, {
 		field: "email",
@@ -50,6 +52,25 @@ const userColumns: GridColDef[] = [
 		field: "location",
 		headerName: "Address",
 		valueGetter: (params: { [key: string]: unknown }) => params?.city + ", " + params?.country
+	}, {
+		field: "actions",
+		headerName: "Actions",
+		renderCell: (params) => {
+			return (
+				<>
+					<Tooltip placement="top" title="Edit">
+						<IconButton size="small">
+							<Edit fontSize="small" />
+						</IconButton>
+					</Tooltip>
+					<Tooltip placement="top" title="Delete">
+						<IconButton size="small">
+							<Delete fontSize="small" />
+						</IconButton>
+					</Tooltip>
+				</>
+			)
+		}
 	}
 ]
 
@@ -106,13 +127,13 @@ export default function DatatablePage() {
 				<TextField size="small" placeholder="Search" />
 				<Select
 					size="small"
-          id="demo-multiple-checkbox"
-          multiple
+					id="demo-multiple-checkbox"
+					multiple
 					value={["Male", "Female"]}
-          // onChange={handleChange}
-          input={<OutlinedInput label="Gender" />}
-          renderValue={(selected) => selected.join(', ')}
-        >
+					// onChange={handleChange}
+					input={<OutlinedInput label="Gender" />}
+					renderValue={(selected) => selected.join(', ')}
+				>
 					<MenuItem value="male">
 						<Checkbox />
 						<ListItemText primary="Male" />
@@ -121,7 +142,7 @@ export default function DatatablePage() {
 						<Checkbox />
 						<ListItemText primary="Female" />
 					</MenuItem>
-        </Select>
+				</Select>
 				<Box style={{ flexGrow: 1 }}></Box>
 				<Button size="small" variant="contained" onClick={handleAddUser}>
 					<Add />
@@ -129,7 +150,7 @@ export default function DatatablePage() {
 				</Button>
 			</Stack>
 
-			<Paper sx={{ height: 500, width: '100%' }}>
+			<Paper sx={{ width: "100%", height: 500 }}>
 				<DataGrid
 					loading={isLoading}
 					columns={userColumns}

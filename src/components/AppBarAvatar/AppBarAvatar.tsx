@@ -1,6 +1,6 @@
 import { Logout } from "@mui/icons-material";
 import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from "@mui/material";
-import { Dispatch, Fragment, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const userProfileMenuItems = [
@@ -92,7 +92,7 @@ export const AppBarAvatar = () => {
   }
 
   return (
-    <Fragment>
+    <>
       <Tooltip title="User Profile">
         <IconButton onClick={handleOpen}>
           <Avatar src="https://randomuser.me/api/portraits/men/41.jpg" />
@@ -107,23 +107,21 @@ export const AppBarAvatar = () => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        {userProfileMenuItems.map(({ title, icon, isDivider }, idx) => (
-          <>
-            {isDivider ? <Divider key={idx.toString()} /> : (
-              <MenuItem key={title} onClick={() => handleMenuItemPress(title as string)}>
-                {icon && (
-                  <ListItemIcon>
-                    {icon}
-                  </ListItemIcon>
-                )}
-                {title}
-              </MenuItem>
-            )}
-          </>
-        ))}
+        {userProfileMenuItems.map(({ title, icon, isDivider }, idx) => {
+          return isDivider ? <Divider key={idx.toString()} /> : (
+            <MenuItem key={title} onClick={() => handleMenuItemPress(title as string)}>
+              {icon && (
+                <ListItemIcon>
+                  {icon}
+                </ListItemIcon>
+              )}
+              {title}
+            </MenuItem>
+          )
+        })}
       </Menu>
 
       <LogoutDialog open={openLogoutDialog} setOpen={setOpenLogoutDialog} />
-    </Fragment>
+    </>
   )
 }

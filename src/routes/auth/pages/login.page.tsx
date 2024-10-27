@@ -1,5 +1,5 @@
-import { AccountCircle, Lock } from "@mui/icons-material";
-import { Alert, Button, Checkbox, CircularProgress, Divider, FormControlLabel, FormGroup, Grid2, InputAdornment, Link, Stack, TextField } from "@mui/material";
+import { AccountCircle, Lock, Visibility, VisibilityOff } from "@mui/icons-material";
+import { Alert, Button, Checkbox, CircularProgress, Divider, FormControlLabel, FormGroup, Grid2, IconButton, InputAdornment, Link, Stack, TextField, Tooltip } from "@mui/material";
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GoogleIcon } from "../../../components/GoogleIcon/GoogleIcon";
@@ -9,6 +9,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [alertMessage, setAlertMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const form = useFormValidation({
     initialValues: {
@@ -80,7 +81,7 @@ export default function LoginPage() {
           <TextField
             label="Password"
             variant="outlined"
-            type="password"
+            type={!showPassword ? "password" : "text"}
             disabled={submitting}
             {...form.get("password")}
             slotProps={{
@@ -90,6 +91,15 @@ export default function LoginPage() {
                     <Lock />
                   </InputAdornment>
                 ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Tooltip placement="top" title={!showPassword ? "Show password" : "Hide password"}>
+                      <IconButton onClick={() => { setShowPassword(!showPassword) }}>
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </Tooltip>
+                  </InputAdornment>
+                )
               },
             }}
           />
