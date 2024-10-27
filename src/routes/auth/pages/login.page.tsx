@@ -37,7 +37,7 @@ export default function LoginPage() {
           setAlertMessage("Invalid credentials");
         }
         setSubmitting(false);
-      }, 3500)
+      }, 1500)
     })
   }
 

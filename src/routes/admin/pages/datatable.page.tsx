@@ -1,6 +1,8 @@
-import { Avatar, Checkbox, ListItemText, MenuItem, OutlinedInput, Paper, Select, Stack, TextField } from "@mui/material";
+import { Add } from "@mui/icons-material";
+import { Avatar, Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, ListItemText, MenuItem, OutlinedInput, Paper, Select, Stack, TextField } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
+import { useSnackbar } from "notistack";
 import { useState } from "react";
 import { DashboardHeader } from "../../../components/DashboardHeader/DashboardHeader";
 
@@ -52,6 +54,9 @@ const userColumns: GridColDef[] = [
 ]
 
 export default function DatatablePage() {
+	const [showAddUserDialog, setShowUserDialog] = useState(false);
+	const { enqueueSnackbar } = useSnackbar()
+
 	// const queryClient = useQueryClient();
 	const [paginationModel, setPaginationModel] = useState({
 		page: 0,
@@ -72,6 +77,25 @@ export default function DatatablePage() {
 	// 	})
 	// }, [data, paginationModel.page, queryClient])
 
+	const handleAddUser = () => {
+		setShowUserDialog(true);
+	}
+
+	const handleAddingUser = () => {
+		const isSuccess = Math.floor(Math.random() * 2) === 1;
+		const message = isSuccess ? "User has been added" : "There was an error in adding user";
+		setTimeout(() => {
+			setShowUserDialog(false);
+			enqueueSnackbar(message, {
+				variant: isSuccess ? "success" : "error",
+				anchorOrigin: {
+					vertical: "bottom",
+					horizontal: "right"
+				}
+			})
+		}, 750)
+	}
+
 	if (error) return <h1>Error...</h1>;
 
 	return (
@@ -81,6 +105,7 @@ export default function DatatablePage() {
 			<Stack direction="row" marginBottom={4} gap={1}>
 				<TextField size="small" placeholder="Search" />
 				<Select
+					size="small"
           id="demo-multiple-checkbox"
           multiple
 					value={["Male", "Female"]}
@@ -97,6 +122,11 @@ export default function DatatablePage() {
 						<ListItemText primary="Female" />
 					</MenuItem>
         </Select>
+				<Box style={{ flexGrow: 1 }}></Box>
+				<Button size="small" variant="contained" onClick={handleAddUser}>
+					<Add />
+					Add User
+				</Button>
 			</Stack>
 
 			<Paper sx={{ height: 500, width: '100%' }}>
@@ -111,6 +141,32 @@ export default function DatatablePage() {
 					onPaginationModelChange={setPaginationModel}
 				/>
 			</Paper>
+
+			<Dialog
+				fullWidth
+				open={showAddUserDialog}
+				maxWidth="xs"
+			>
+				<DialogTitle>Add User</DialogTitle>
+				<DialogContent>
+					<DialogContentText>
+						Simulate adding user...
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button
+						disabled={isLoading}
+						onClick={handleAddingUser}
+						variant="contained"
+						autoFocus
+					>Add</Button>
+					<Button
+						disabled={isLoading}
+						onClick={() => { setShowUserDialog(false) }}
+						variant="outlined"
+					>Cancel</Button>
+				</DialogActions>
+			</Dialog>
 		</>
 	)
 }

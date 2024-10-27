@@ -1,13 +1,11 @@
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import { AppBar, Box, IconButton, Stack, Toolbar, Typography } from "@mui/material";
-import { useState } from 'react';
 import { AppBarAvatar } from '../AppBarAvatar/AppBarAvatar';
+import DarkModeToggler from '../DarkModeToggler/DarkModelToggler';
 import { NotificationsButton } from '../NotificationsButton/NotificationsButton';
 
-export const HeaderAppBar = () => {
-  const [sidebarVisible, setSidebarVisible] = useState(true);
-
+export const HeaderAppBar = ({ openSidebar, setOpenSidebar}) => {
   return (
     <AppBar
       component="nav"
@@ -19,8 +17,8 @@ export const HeaderAppBar = () => {
     >
       <Toolbar>
         <Stack direction="row" alignItems="center" gap={2}>
-          <IconButton onClick={() => { setSidebarVisible(!sidebarVisible) }}>
-            {sidebarVisible ? <MenuOpenIcon /> : <MenuIcon />}
+          <IconButton onClick={() => { setOpenSidebar(!openSidebar) }}>
+            {openSidebar ? <MenuOpenIcon /> : <MenuIcon />}
           </IconButton>
           <Typography variant="h6">PrensUI</Typography>
         </Stack>
@@ -28,6 +26,7 @@ export const HeaderAppBar = () => {
         {/* Spacing */}
         <Box sx={{ flexGrow: 1 }}></Box>
 
+        <DarkModeToggler />
         <NotificationsButton />
         <AppBarAvatar />
       </Toolbar>
