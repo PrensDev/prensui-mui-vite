@@ -1,28 +1,18 @@
-import { Breadcrumbs, Link, Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
+import { DashbboardBreadcrumbs, DashboardBreadcrumb } from "../DashbboardBreadcrumbs/DashbboardBreadcrumbs";
 
 interface DashboardHeaderProps {
-  title: string
+  title: string,
+  breadcrumbs?: DashboardBreadcrumb[]
 }
 
 export const DashboardHeader = ({
-  title
+  title,
+  breadcrumbs
 }: Readonly<DashboardHeaderProps>) => {
   return (
     <Stack style={{ marginBottom: 20 }}>
-      <Breadcrumbs aria-label="breadcrumb">
-        <Link underline="hover" color="inherit" href="/">
-          MUI
-        </Link>
-        <Link
-          underline="hover"
-          color="inherit"
-          href="/material-ui/getting-started/installation/"
-        >
-          Core
-        </Link>
-        <Typography sx={{ color: 'text.primary' }}>Breadcrumbs</Typography>
-      </Breadcrumbs>
-
+      {breadcrumbs && <DashbboardBreadcrumbs breadcrumbs={breadcrumbs} />}
       <h1 style={{ margin: 0 }}>{title}</h1>
     </Stack>
   )

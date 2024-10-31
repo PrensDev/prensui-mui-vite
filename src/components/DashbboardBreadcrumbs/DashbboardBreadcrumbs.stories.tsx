@@ -1,17 +1,20 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { DashboardHeader } from './DashboardHeader';
+
+import { DashbboardBreadcrumbs } from './DashbboardBreadcrumbs';
 
 const meta = {
-  component: DashboardHeader,
-} satisfies Meta<typeof DashboardHeader>;
+  component: DashbboardBreadcrumbs,
+} satisfies Meta<typeof DashbboardBreadcrumbs>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  argTypes: {
+
+  },
   args: {
-    title: "Dashboard",
     breadcrumbs: [
       {
         name: "Home",

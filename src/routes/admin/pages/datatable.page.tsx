@@ -1,9 +1,11 @@
 import { Add, Delete, Edit } from "@mui/icons-material";
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Avatar, Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, ListItemText, MenuItem, OutlinedInput, Paper, Select, Stack, TextField, Tooltip } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { DashboardHeader } from "../../../components/DashboardHeader/DashboardHeader";
 
 const pageSizeOption = 100;
@@ -20,63 +22,79 @@ const fetchUsers = async (page: number) => {
 	});
 }
 
-const userColumns: GridColDef[] = [
-	{
-		field: "id",
-		width: 300
-	}, {
-		field: "picture",
-		headerName: "Photo",
-		renderCell: (params) => {
-			return (
-				<Avatar
-					src={params.value?.medium}
-				/>
-			)
+const getUserColumns = (props): GridColDef[] => {
+	return [
+		{
+			field: "id",
+			width: 300
+		}, {
+			field: "picture",
+			headerName: "Photo",
+			renderCell: (params) => {
+				return (
+					<Avatar
+						src={params.value?.medium}
+					/>
+				)
+			}
+		}, {
+			field: "name",
+			headerName: "Name",
+			width: 300,
+			valueGetter: (params: { [key: string]: unknown }) => params?.title + " " + params?.first + " " + params?.last
+		}, {
+			field: "email",
+			headerName: "Email",
+		}, {
+			field: "gender",
+			headerName: "Gender"
+		}, {
+			field: "phone",
+			headerName: "Phone Number"
+		}, {
+			field: "location",
+			headerName: "Address",
+			valueGetter: (params: { [key: string]: unknown }) => params?.city + ", " + params?.country
+		}, {
+			field: "actions",
+			headerName: "Actions",
+			width: 125,
+			renderCell: props.actionRenderer
 		}
-	}, {
-		field: "name",
-		headerName: "Name",
-		width: 300,
-		valueGetter: (params: { [key: string]: unknown }) => params?.title + " " + params?.first + " " + params?.last
-	}, {
-		field: "email",
-		headerName: "Email",
-	}, {
-		field: "gender",
-		headerName: "Gender"
-	}, {
-		field: "phone",
-		headerName: "Phone Number"
-	}, {
-		field: "location",
-		headerName: "Address",
-		valueGetter: (params: { [key: string]: unknown }) => params?.city + ", " + params?.country
-	}, {
-		field: "actions",
-		headerName: "Actions",
-		renderCell: (params) => {
-			return (
-				<>
-					<Tooltip placement="top" title="Edit">
-						<IconButton size="small">
-							<Edit fontSize="small" />
-						</IconButton>
-					</Tooltip>
-					<Tooltip placement="top" title="Delete">
-						<IconButton size="small">
-							<Delete fontSize="small" />
-						</IconButton>
-					</Tooltip>
-				</>
-			)
-		}
+	]
+}
+
+const DTActions = (props: { id: string }) => {
+	const navigate = useNavigate();
+
+	const handleUserView = () => {
+		navigate(`/users/${ props.id }`)
 	}
-]
+
+	return (
+		<>
+			<Tooltip placement="top" title="View Details">
+				<IconButton size="small">
+					<VisibilityIcon fontSize="small" onClick={handleUserView} />
+				</IconButton>
+			</Tooltip>
+			<Tooltip placement="top" title="Edit">
+				<IconButton size="small">
+					<Edit fontSize="small" />
+				</IconButton>
+			</Tooltip>
+			<Tooltip placement="top" title="Delete">
+				<IconButton size="small">
+					<Delete fontSize="small" />
+				</IconButton>
+			</Tooltip>
+		</>
+	)
+}
 
 export default function DatatablePage() {
 	const [showAddUserDialog, setShowUserDialog] = useState(false);
-	const { enqueueSnackbar } = useSnackbar()
+	const { enqueueSnackbar } = useSnackbar();
 
 	// const queryClient = useQueryClient();
 	const [paginationModel, setPaginationModel] = useState({
@@ -153,7 +171,11 @@ export default function DatatablePage() {
 			<Paper sx={{ width: "100%", height: 500 }}>
 				<DataGrid
 					loading={isLoading}
-					columns={userColumns}
+					columns={getUserColumns({
+						actionRenderer: ({ id }) => {
+							return <DTActions id={id} />
+						}
+					})}
 					rows={data}
 					rowCount={maxRowCount}
 					pageSizeOptions={[pageSizeOption]}

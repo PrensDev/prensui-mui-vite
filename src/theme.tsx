@@ -9,7 +9,7 @@ export const theme = createTheme({
         dark: true
     },
     typography: {
-        fontFamily: "Segoe UI",
+        fontFamily: "sans-serif",
     },
     palette: {
         primary: {

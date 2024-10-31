@@ -1,3 +1,4 @@
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
 import LayersIcon from '@mui/icons-material/Layers';
@@ -7,7 +8,6 @@ import TableViewIcon from '@mui/icons-material/TableView';
 import { Box, Chip, Divider, List, ListItemButton, ListItemIcon, ListItemText, styled, Toolbar, Tooltip, Typography } from "@mui/material";
 import MuiDrawer from '@mui/material/Drawer';
 import { useNavigate } from 'react-router-dom';
-
 
 const sidebarItems = [
   {
@@ -59,6 +59,10 @@ const sidebarItems = [
         title: "404",
         icon: <LayersClearIcon />,
         link: "/notfound"
+      }, {
+        title: "Login",
+        icon: <AccountCircleIcon />,
+        link: "/login"
       }
     ]
   }
@@ -97,8 +101,13 @@ export const Sidebar = ({ open }: SidebarProps) => {
       variant="permanent"
       sx={{
         width: open ? 240 : 60,
+        transition: "width 0.3s ease-in-out",
         flexShrink: 0,
-        [`& .MuiDrawer-paper`]: { width: open ? 240 : 60, boxSizing: 'border-box' },
+        [`& .MuiDrawer-paper`]: {
+          width: open ? 240 : 60,
+          boxSizing: 'border-box',
+          transition: "width 0.3s ease-in-out",
+        },
       }}
     >
       <Toolbar />
@@ -122,7 +131,7 @@ export const Sidebar = ({ open }: SidebarProps) => {
                   </Tooltip>
                 )}
                 {open && <ListItemText primary={item.title} style={{ flexGrow: 1 }} />}
-                {item.chip ? <Chip label={item.chip} size="small" color="primary" /> : null}
+                {open && item.chip ? <Chip label={item.chip} size="small" color="primary" /> : null}
               </ListItemButton>
             ))}
           </List>

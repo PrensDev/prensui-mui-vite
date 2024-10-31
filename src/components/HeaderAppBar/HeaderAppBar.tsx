@@ -5,7 +5,12 @@ import { AppBarAvatar } from '../AppBarAvatar/AppBarAvatar';
 import DarkModeToggler from '../DarkModeToggler/DarkModelToggler';
 import { NotificationsButton } from '../NotificationsButton/NotificationsButton';
 
-export const HeaderAppBar = ({ openSidebar, setOpenSidebar}) => {
+interface HeaderAppBarProps {
+  openSidebar: boolean,
+  setOpenSidebar: (state: boolean) => void
+}
+
+export const HeaderAppBar = ({ openSidebar, setOpenSidebar}: HeaderAppBarProps) => {
   return (
     <AppBar
       component="nav"
